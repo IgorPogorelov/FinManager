@@ -82,4 +82,16 @@ public class FinStatistic implements Serializable {
 
         return resultToClient;
     }
+
+    public void saveBin(File file) throws IOException {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
+            out.writeObject(this);
+        }
+    }
+
+    public static FinStatistic loadFromBin(File file) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
+            return  (FinStatistic) in.readObject();
+        }
+    }
 }
