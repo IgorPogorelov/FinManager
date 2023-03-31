@@ -3,6 +3,8 @@ import com.google.gson.GsonBuilder;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +16,13 @@ public class Main {
 
         try (ServerSocket serverSocket = new ServerSocket(8989);) {
 
-            FinStatistic finStatistic = new FinStatistic();
+            FinStatistic finStatistic;
+
+            if (Files.exists(Path.of("data.bin"))) {
+                finStatistic = FinStatistic.loadFromBin(new File("data.bin"));
+            } else {
+                finStatistic = new FinStatistic();
+            }
 
             while (true) {
                 try (
@@ -29,10 +37,11 @@ public class Main {
 
                     finStatistic.addPurchase(finStatistic.getCountCategory(), purchase);
                     finStatistic.countMaxCategory(finStatistic.getCountCategory());
+                    finStatistic.saveBin(new File("data.bin"));
                     out.println(finStatistic.answerToClient(finStatistic.getMaxCategory(), finStatistic.getMaxCategoryValue()));
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             System.out.println("Не могу стартовать сервер");
             e.printStackTrace();
         }
