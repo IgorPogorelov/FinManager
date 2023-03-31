@@ -51,7 +51,7 @@ public class FinStatistic implements Serializable {
         return  countCategory;
     }
 
-    public Map<String, Long> countMaxCategory(Map<String, Long> countCategory, Purchase purchase) {
+    public Map<String, Long> countMaxCategory(Map<String, Long> countCategory) {
         Map<String, Long> maxCategoryValue = new HashMap<>();
 
         Long tmpMaxValue = Collections.max(countCategory.values());
@@ -72,12 +72,12 @@ public class FinStatistic implements Serializable {
         return maxCategoryValue;
     }
 
-    public JSONObject answerToClient(Map<String, Long> map) {
+    public JSONObject answerToClient(String maxCategoryName, Long maxCategorySum) {
         JSONObject maxCategory = new JSONObject();
         JSONObject resultToClient = new JSONObject();
 
-        maxCategory.put("sum", getMaxCategoryValue());
-        maxCategory.put("category", getMaxCategory());
+        maxCategory.put("sum", maxCategorySum);
+        maxCategory.put("category", maxCategoryName);
         resultToClient.put("maxCategory", maxCategory);
 
         return resultToClient;

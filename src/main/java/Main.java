@@ -28,7 +28,8 @@ public class Main {
                     Purchase purchase = gson.fromJson(tmp, Purchase.class);
 
                     finStatistic.addPurchase(finStatistic.getCountCategory(), purchase);
-                    out.println(finStatistic.answerToClient(finStatistic.countMaxCategory(finStatistic.getCountCategory(), purchase)));
+                    finStatistic.countMaxCategory(finStatistic.getCountCategory());
+                    out.println(finStatistic.answerToClient(finStatistic.getMaxCategory(), finStatistic.getMaxCategoryValue()));
                 }
             }
         } catch (IOException e) {
